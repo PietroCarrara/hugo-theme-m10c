@@ -11,9 +11,6 @@
     {{ $style := resources.Get "css/main.scss" | resources.ExecuteAsTemplate "css/main.scss" . | resources.ToCSS | resources.Minify | resources.Fingerprint -}}
     <link rel="stylesheet" href="{{ $style.Permalink }}" />
 
-    <!-- Privacy respecting analytics -->
-    <script defer data-domain="pietrocarrara.github.io" src="https://plausible.io/js/plausible.js"></script>
-
     {{ template "_internal/google_analytics.html" . }}
     {{ template "_internal/twitter_cards.html" . }}
     {{ template "_internal/opengraph.html" . }}
@@ -21,8 +18,20 @@
   </head>
   <body>
     <header class="app-header">
-      <a href="{{ .Site.BaseURL }}"><img class="app-header-avatar" src="{{ .Site.Params.avatar | default "avatar.jpg" | relURL }}" alt="{{ .Site.Params.author | default "John Doe" }}" /></a>
-      <h1>{{ .Site.Title }}</h1>
+      <div class="app-header-image-container">
+        <a href="{{ .Site.BaseURL }}">
+          {{ if .Page.Params.images}}
+            {{ $img := .Page.Resources.GetMatch (index .Page.Params.images 0) }}
+            <img src="{{ ($img.Fit "400x300 webp").Permalink }}" />
+          {{ else }}
+            <img class="app-header-avatar" src="{{ .Site.Params.avatar | default "avatar.jpg" | relURL }}" alt="{{ .Site.Params.author | default "John Doe" }}" />
+          {{ end }}
+        </a>
+      </div>
+
+      <a href="{{ .Site.BaseURL }}">
+        <h1>{{ .Site.Title }}</h1>
+      </a>
       {{- with .Site.Menus.main }}
       <nav class="app-header-menu">
         {{- range $key, $item := . }}
