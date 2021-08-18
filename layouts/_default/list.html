@@ -10,7 +10,7 @@
             {{ .PublishDate.Format "Jan 2, 2006" }}
             -
             {{ partial "icon.html" (dict "ctx" $ "name" "clock") }}
-            {{ .ReadingTime }} min read
+            {{ i18n "readTime" .ReadingTime }}
           </span>
         </li>
       {{ end }}

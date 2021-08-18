@@ -19,7 +19,7 @@
   <body>
     <header class="app-header">
       <div class="app-header-image-container">
-        <a href="{{ .Site.BaseURL }}">
+        <a href="{{ .Site.BaseURL | relLangURL }}">
           {{ if .Page.Params.images}}
             {{ $img := .Page.Resources.GetMatch (index .Page.Params.images 0) }}
             <img src="{{ ($img.Fit "400x300 webp").Permalink }}" />
@@ -29,20 +29,35 @@
         </a>
       </div>
 
-      <a href="{{ .Site.BaseURL }}">
+      <a href="{{ .Site.BaseURL | relLangURL }}">
         <h1>{{ .Site.Title }}</h1>
       </a>
+
       {{- with .Site.Menus.main }}
       <nav class="app-header-menu">
         {{- range $key, $item := . }}
           {{- if ne $key 0 }}
             {{ $.Site.Params.menu_item_separator | default " - " | safeHTML }}
           {{ end }}
-          <a class="app-header-menu-item" href="{{ $item.URL }}">{{ $item.Name }}</a>
+          <a class="app-header-menu-item" href="{{ $item.URL | relLangURL }}">{{ $item.Name }}</a>
         {{- end }}
       </nav>
       {{- end }}
       <p>{{ .Site.Params.description | default "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula turpis sit amet elit pretium." }}</p>
+
+      {{ if .IsTranslated }}
+        <p>
+          {{- range $i, $tl := .Translations }}
+            {{ if ne $i 0 }}
+              {{ $.Site.Params.menu_item_separator | default " - " | safeHTML }}
+            {{ end }}
+            <a href="{{ $tl.Permalink }}">
+              {{ index $.Site.Params.lang_text $tl.Language.Lang | default $tl.Language.Lang }}
+            </a>
+          {{ end }}
+        </p>
+      {{ end }}
+
       {{- with .Site.Params.social }}
       <div class="app-header-social">
         {{ range . }}
