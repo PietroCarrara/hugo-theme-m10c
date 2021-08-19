@@ -47,7 +47,7 @@
 
       {{ if .IsTranslated }}
         <p>
-          {{- range $i, $tl := .Translations }}
+          {{- range $i, $tl := .AllTranslations }}
             {{ if ne $i 0 }}
               {{ $.Site.Params.menu_item_separator | default " - " | safeHTML }}
             {{ end }}
