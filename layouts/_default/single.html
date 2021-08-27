@@ -10,7 +10,7 @@
         </div>
         <div>
           {{ partial "icon.html" (dict "ctx" $ "name" "clock") }}
-          {{ .ReadingTime }} min read
+          {{ i18n "readTime" .ReadingTime }}
         </div>
         {{- with .Params.tags }}
         <div>
