@@ -24,7 +24,9 @@
             {{ $img := .Page.Resources.GetMatch (index .Page.Params.images 0) }}
             <img src="{{ ($img.Fit "400x300 webp").Permalink }}" />
           {{ else }}
-            <img class="app-header-avatar" src="{{ ((resources.Get "img/avatar.jpg").Fit "460x460 webp").Permalink }}" alt="{{ .Site.Params.author }}" />
+            {{ with ((resources.Get "img/avatar.jpg").Fit "460x460 webp") }}
+              <img class="app-header-avatar" src="{{ .Permalink }}" width="{{ .Width }}" height="{{ .Height }}" alt="{{ $.Site.Params.author }}" />
+            {{ end }}
           {{ end }}
         </a>
       </div>
