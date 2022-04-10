@@ -11,21 +11,6 @@
     {{ $style := resources.Get "css/main.scss" | resources.ExecuteAsTemplate "css/main.scss" . | resources.ToCSS | resources.Minify | resources.Fingerprint -}}
     <link rel="stylesheet" href="{{ $style.Permalink }}" />
 
-    {{ if .Page.Params.Katex }}
-      <link rel="stylesheet" href="/katex/katex.min.css">
-      <script defer src="/katex/katex.min.js"></script>
-      <script>
-        var katexOpts = {
-          delimiters: [
-            {left: '$$', right: '$$', display: true},
-            {left: '$', right: '$', display: false},
-          ],
-          throwOnError: false
-        };
-      </script>
-      <script defer src="/katex/contrib/auto-render.min.js" onload="renderMathInElement(document.body, katexOpts);"></script>
-    {{ end }}
-
     {{ template "_internal/google_analytics.html" . }}
     {{ template "_internal/twitter_cards.html" . }}
     {{ template "_internal/opengraph.html" . }}
