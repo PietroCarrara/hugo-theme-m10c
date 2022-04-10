@@ -1,6 +1,6 @@
 readTime:
-  one: 1 min para ler
-  other: '{{ .Count }} mins para ler'
+  one: 1 minuto para ler
+  other: '{{ .Count }} minutos para ler'
 
 '404':
   other: 'O link que você seguiu pode estar quebrado, ou a página pode ter sido removida.'
