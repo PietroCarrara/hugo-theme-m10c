@@ -9,6 +9,11 @@
     <meta name="author" content="{{ .Site.Params.author }}" />
     <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{if .IsPage}}{{ .Summary }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}{{ end }}" />
     <link rel="canonical" href="{{ .Permalink }}" />
+    {{ if .IsTranslated }}
+      {{ range .AllTranslations }}
+        <link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}" />
+      {{ end }}
+    {{ end }}
     {{ $style := resources.Get "css/main.scss" | resources.ExecuteAsTemplate "css/main.scss" . | resources.ToCSS | resources.Minify | resources.Fingerprint -}}
     <link rel="stylesheet" href="{{ $style.Permalink }}" />
 
