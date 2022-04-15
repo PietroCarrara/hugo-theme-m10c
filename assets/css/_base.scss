@@ -51,6 +51,11 @@ pre {
   }
 }
 
+hr {
+  color: transparent;
+  border-top: 1px solid $primary-color;
+}
+
 ::selection {
   background: rgba($light-color, .25);
 }
