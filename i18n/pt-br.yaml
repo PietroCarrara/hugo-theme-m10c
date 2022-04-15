@@ -1,9 +1,6 @@
 readTime:
   one: 1 minuto para ler
   other: '{{ .Count }} minutos para ler'
-
-'404':
-  other: 'O link que você seguiu pode estar quebrado, ou a página pode ter sido removida.'
-
-goHome:
-  other: Vá para o início
+'404': 'O link que você seguiu pode estar quebrado, ou a página pode ter sido removida.'
+goHome: Vá para o início
+related: 'Você também pode gostar de:'

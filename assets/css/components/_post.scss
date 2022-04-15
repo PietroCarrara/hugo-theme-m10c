@@ -1,6 +1,6 @@
 .post-title {
   color: $lightest-color;
-  border-bottom: 1px solid $primary-color;
+  margin-bottom: 8px;
 }
 
 .post-content {
@@ -26,6 +26,15 @@
   font-size: 0.8em;
 }
 
-.disclaimer {
+.post-header-content-separator {
   margin-top: 8px;
+  margin-bottom: 16px;
+}
+
+.post-disclaimer {
+  margin-top: 4px;
+}
+
+.post-related-title {
+  margin-bottom: 0;
 }

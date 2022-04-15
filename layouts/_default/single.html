@@ -17,25 +17,38 @@
           {{ partial "icon.html" (dict "ctx" $ "name" "tag") }}
           {{- range . -}}
             {{ with $.Site.GetPage (printf "/%s/%s" "tags" . ) }}
-              <a class="tag" href="{{ .Permalink }}">{{ .Title }}</a>
+              <a class="tag" href="{{ .Permalink }}">{{ i18n .Title | default .Title | humanize }}</a>
             {{- end }}
           {{- end }}
         </div>
         {{- end }}
-      </div>
-      {{- end }}
-      {{ with .Params.disclaimer }}
-        <div class="disclaimer">
+        {{ with .Params.disclaimer }}
+        <div class="post-disclaimer">
           <em>{{ . }}</em>
         </div>
-        <hr />
-      {{ end }}
+        {{ end }}
+        <hr class="post-header-content-separator" />
+      </div>
+      {{- end }}
     </header>
     <div class="post-content">
       {{ .Content }}
     </div>
     <div class="post-footer">
       {{ template "_internal/disqus.html" . }}
+      {{ $related := slice }}
+      {{ $tags := .Params.tags }}
+      {{- if ne .Type "page" }}
+        {{ range where (sort .Site.RegularPages ".Date" "desc") ".Title" "!=" .Title }}
+          {{ if ge (len (intersect $tags .Params.tags)) 2 }}
+            {{ $related = $related | append . }}
+          {{ end }}
+        {{ end }}
+      {{ end }}
+      {{ if gt (len $related) 0 }}
+        <h3 class="post-related-title">{{ i18n "related" | default "You might also like:" }}</h3>
+        {{ partial "post-list.html" (dict "ctx" $ "posts" $related) }}
+      {{ end }}
     </div>
   </article>
 {{ end }}

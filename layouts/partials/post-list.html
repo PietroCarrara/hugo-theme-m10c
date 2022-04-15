@@ -1,0 +1,16 @@
+<ul class="posts-list">
+  {{ range .posts }}
+    <li class="posts-list-item">
+      <a class="posts-list-item-title" href="{{ .Permalink }}">{{ .Title }}</a>
+      <span class="posts-list-item-description">
+        {{ partial "icon.html" (dict "ctx" $.ctx "name" "calendar") }}
+        <span>
+          {{ .PublishDate.Format "Jan 2, 2006" }}
+          -
+        </span>
+        {{ partial "icon.html" (dict "ctx" $.ctx "name" "clock") }}
+        <span>{{ i18n "readTime" .ReadingTime }}</span>
+      </span>
+    </li>
+  {{ end }}
+</ul>
