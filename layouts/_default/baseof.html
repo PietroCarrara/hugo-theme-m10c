@@ -6,8 +6,8 @@
     <meta charset="utf-8" />
     {{ hugo.Generator }}
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="author" content="{{ .Site.Params.author | default "John Doe" }}" />
-    <meta name="description" content="{{ if .IsHome }}{{ .Site.Params.description }}{{ else }}{{ .Description }}{{ end }}" />
+    <meta name="author" content="{{ .Site.Params.author }}" />
+    <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{if .IsPage}}{{ .Summary }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}{{ end }}" />
     {{ $style := resources.Get "css/main.scss" | resources.ExecuteAsTemplate "css/main.scss" . | resources.ToCSS | resources.Minify | resources.Fingerprint -}}
     <link rel="stylesheet" href="{{ $style.Permalink }}" />
 
@@ -22,7 +22,9 @@
         <a href="{{ .Site.BaseURL | relLangURL }}">
           {{ if .Page.Params.images}}
             {{ $img := .Page.Resources.GetMatch (index .Page.Params.images 0) }}
-            <img src="{{ ($img.Fit "400x300 webp").Permalink }}" />
+            {{ with $img.Fit "400x300 webp" }}
+              <img alt="Post thumbnail" src="{{ .Permalink }}" width="{{ .Width }}" height="{{ .Height }}" style="width: auto;" />
+            {{ end }}
           {{ else }}
             {{ with ((resources.Get "img/avatar.jpg").Fit "460x460 webp") }}
               <img class="app-header-avatar" src="{{ .Permalink }}" width="{{ .Width }}" height="{{ .Height }}" alt="{{ $.Site.Params.author }}" />
@@ -50,12 +52,15 @@
       {{ if .IsTranslated }}
         <p>
           {{- range $i, $tl := .AllTranslations }}
-            {{ if ne $i 0 }}
-              {{ $.Site.Params.menu_item_separator | default " - " | safeHTML }}
+            {{ $svg := printf "svg/%s.svg" $tl.Language.Lang }}
+            {{ with resources.Get $svg }}
+              {{ if ne $i 0 }}
+                {{ $.Site.Params.menu_item_separator | default " - " | safeHTML }}
+              {{ end }}
+              <a href="{{ $tl.Permalink }}">
+                {{ .Content | safeHTML }}
+              </a>
             {{ end }}
-            <a href="{{ $tl.Permalink }}">
-              {{ index $.Site.Params.lang_text $tl.Language.Lang | default $tl.Language.Lang }}
-            </a>
           {{ end }}
         </p>
       {{ end }}
