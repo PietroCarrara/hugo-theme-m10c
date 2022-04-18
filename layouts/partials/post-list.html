@@ -4,10 +4,7 @@
       <a class="posts-list-item-title" href="{{ .Permalink }}">{{ .Title }}</a>
       <span class="posts-list-item-description">
         {{ partial "icon.html" (dict "ctx" $.ctx "name" "calendar") }}
-        <span>
-          {{ .PublishDate.Format "Jan 2, 2006" }}
-          -
-        </span>
+        <span>{{ .PublishDate | time.Format ":date_medium" }} // </span>
         {{ partial "icon.html" (dict "ctx" $.ctx "name" "clock") }}
         <span>{{ i18n "readTime" .ReadingTime }}</span>
       </span>
