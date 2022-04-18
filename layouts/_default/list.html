@@ -1,6 +1,10 @@
 {{ define "main" }}
   <article>
-    <h1>{{ i18n .Title | default .Title | humanize }}</h1>
+    {{ if .IsHome }}
+      <h1>{{ .Title }}</h1>
+    {{ else }}
+      <h1>Tag: {{ replace (i18n .Title | default .Title) "-" " " | title }}</h1>
+    {{ end }}
     {{ partial "post-list.html" (dict "ctx" $ "posts" (where .Paginator.Pages "Type" "!=" "page")) }}
     {{ partial "pagination.html" $ }}
   </article>

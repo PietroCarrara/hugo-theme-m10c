@@ -17,7 +17,7 @@
           {{ partial "icon.html" (dict "ctx" $ "name" "tag") }}
           {{- range . -}}
             {{ with $.Site.GetPage (printf "/%s/%s" "tags" . ) }}
-              <a class="tag" href="{{ .Permalink }}">{{ i18n .Title | default .Title | humanize }}</a>
+              <a class="tag" href="{{ .Permalink }}">{{ replace (i18n .Title | default .Title) "-" " " | title }}</a>
             {{- end }}
           {{- end }}
         </div>
