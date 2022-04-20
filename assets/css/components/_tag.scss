@@ -1,3 +1,14 @@
+.tag-icon {
+  display: inline;
+  float: left;
+}
+
+.tags-container {
+  display: inline-block;
+  width: calc(100% - 1em);
+  padding-left: 4px
+}
+
 .tag {
   display: inline-block;
   margin-right: 0.2em;

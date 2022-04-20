@@ -14,12 +14,14 @@
         </div>
         {{- with .Params.tags }}
         <div>
-          {{ partial "icon.html" (dict "ctx" $ "name" "tag") }}
-          {{- range . -}}
-            {{ with $.Site.GetPage (printf "/%s/%s" "tags" . ) }}
-              <a class="tag" href="{{ .Permalink }}">{{ replace (i18n .Title | default .Title) "-" " " | title }}</a>
-            {{- end }}
-          {{- end }}
+            <div class="tag-icon">{{ partial "icon.html" (dict "ctx" $ "name" "tag") }}</div>
+            <div class="tags-container">
+              {{- range . -}}
+                {{ with $.Site.GetPage (printf "/%s/%s" "tags" . ) }}
+                  <a class="tag" href="{{ .Permalink }}">{{ replace (i18n .Title | default .Title) "-" " " | title }}</a>
+                {{- end }}
+              {{- end }}
+            </div>
         </div>
         {{- end }}
         {{ with .Params.disclaimer }}
