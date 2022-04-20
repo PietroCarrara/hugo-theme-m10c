@@ -22,4 +22,8 @@
   {{ end }}
 {{ end }}
 
+{{ with .Site.Params.fb_app_id }}
+  <meta property="fb:app_id" content="{{ . }}">
+{{ end }}
+
 <meta name="robots" content="max-image-preview:large">
