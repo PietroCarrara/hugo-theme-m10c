@@ -1,24 +1,23 @@
 <!doctype html>
 <html lang="{{ .Site.Language.Lang }}">
   <head>
-    {{ hugo.Generator }}
-    {{ partial "seo.html" . }}
-    <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
-    <link rel="shortcut icon" href="{{ .Site.Params.favicon | default "/favicon.ico" }}" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="{{ .Site.Params.style.darkColor | default "#353b43" }}" />
+    <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+    <link rel="shortcut icon" href="{{ .Site.Params.favicon | default "/favicon.ico" }}" />
     {{ $style := resources.Get "css/main.scss" | resources.ExecuteAsTemplate "css/main.scss" . | resources.ToCSS | resources.Minify | resources.Fingerprint -}}
     <link rel="stylesheet" href="{{ $style.Permalink }}" />
-
+    {{ hugo.Generator }}
+    {{ partial "seo.html" . }}
     {{ template "_internal/google_analytics.html" . }}
   </head>
   <body>
     <header class="app-header">
       <div class="app-header-image-container">
         <a href="{{ .Site.BaseURL | relLangURL }}">
-          {{ if .Page.Params.images}}
-            {{ $img := .Page.Resources.GetMatch (index .Page.Params.images 0) }}
+          {{ with .Page.Params.poster }}
+            {{ $img := $.Page.Resources.GetMatch . }}
             {{ with $img.Fit "400x300 webp" }}
               <img alt="Post thumbnail" src="{{ .Permalink }}" width="{{ .Width }}" height="{{ .Height }}" style="width: auto;" />
             {{ end }}

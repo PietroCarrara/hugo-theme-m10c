@@ -7,12 +7,19 @@
     <link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}" />
   {{ end }}
 {{ end }}
-{{ template "_internal/twitter_cards.html" . }}
-{{ template "_internal/opengraph.html" . }}
 
+{{ template "_internal/twitter_cards.html" . }}
+
+{{ template "_internal/opengraph.html" . }}
+{{ with ((.Resources.ByType "image").GetMatch "*feature*") }}
+  <meta property="og:image:width" content="{{ .Width }}">
+  <meta property="og:image:height" content="{{ .Height }}">
+{{ end}}
 
 {{ with .Params.tags }}
   {{ if gt (len .) 0 }}
     <meta property="article:tag" content="{{ range $i, $tag := . }}{{ if gt $i 0 }},{{ end }}{{ replace (i18n $tag | default $tag) "-" " " | title }}{{ end }}">
   {{ end }}
 {{ end }}
+
+<meta name="robots" content="max-image-preview:large">
