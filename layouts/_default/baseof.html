@@ -1,26 +1,17 @@
 <!doctype html>
 <html lang="{{ .Site.Language.Lang }}">
   <head>
+    {{ hugo.Generator }}
+    {{ partial "seo.html" . }}
     <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
     <link rel="shortcut icon" href="{{ .Site.Params.favicon | default "/favicon.ico" }}" />
     <meta charset="utf-8" />
-    {{ hugo.Generator }}
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="author" content="{{ .Site.Params.author }}" />
-    <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{if .IsPage}}{{ .Summary }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}{{ end }}" />
-    <link rel="canonical" href="{{ .Permalink }}" />
-    {{ if .IsTranslated }}
-      {{ range .AllTranslations }}
-        <link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}" />
-      {{ end }}
-    {{ end }}
+    <meta name="theme-color" content="{{ .Site.Params.style.darkColor | default "#353b43" }}" />
     {{ $style := resources.Get "css/main.scss" | resources.ExecuteAsTemplate "css/main.scss" . | resources.ToCSS | resources.Minify | resources.Fingerprint -}}
     <link rel="stylesheet" href="{{ $style.Permalink }}" />
 
     {{ template "_internal/google_analytics.html" . }}
-    {{ template "_internal/twitter_cards.html" . }}
-    {{ template "_internal/opengraph.html" . }}
-
   </head>
   <body>
     <header class="app-header">
@@ -40,7 +31,7 @@
       </div>
 
       <a href="{{ .Site.BaseURL | relLangURL }}">
-        <h1>{{ .Site.Title }}</h1>
+        <span class="title">{{ .Site.Title }}</span>
       </a>
 
       {{- with .Site.Menus.main }}

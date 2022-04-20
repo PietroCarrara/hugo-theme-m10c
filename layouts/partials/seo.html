@@ -1,0 +1,18 @@
+<meta name="author" content="{{ .Site.Params.author }}" />
+<meta property="article:author" content="{{ .Site.Params.author }}">
+<meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{if .IsPage}}{{ .Summary }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}{{ end }}" />
+<link rel="canonical" href="{{ .Permalink }}" />
+{{ if .IsTranslated }}
+  {{ range .AllTranslations }}
+    <link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}" />
+  {{ end }}
+{{ end }}
+{{ template "_internal/twitter_cards.html" . }}
+{{ template "_internal/opengraph.html" . }}
+
+
+{{ with .Params.tags }}
+  {{ if gt (len .) 0 }}
+    <meta property="article:tag" content="{{ range $i, $tag := . }}{{ if gt $i 0 }},{{ end }}{{ replace (i18n $tag | default $tag) "-" " " | title }}{{ end }}">
+  {{ end }}
+{{ end }}
