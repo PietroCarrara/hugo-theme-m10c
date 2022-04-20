@@ -53,7 +53,7 @@
               {{ if ne $i 0 }}
                 {{ $.Site.Params.menu_item_separator | default " - " | safeHTML }}
               {{ end }}
-              <a href="{{ $tl.Permalink }}">
+              <a href="{{ $tl.Permalink }}" title="{{ $tl.Language.LanguageName }}">
                 {{ .Content | safeHTML }}
               </a>
             {{ end }}
