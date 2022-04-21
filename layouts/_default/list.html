@@ -1,9 +1,9 @@
 {{ define "main" }}
   <article>
-    {{ if .IsHome }}
-      <h1>{{ .Title }}</h1>
+    {{ if eq .Kind "term" }}
+      <h1>{{ .Data.Singular | title }}: {{ partial "tag-display.html" .Title }}</h1>
     {{ else }}
-      <h1>Tag: {{ replace (i18n .Title | default .Title) "-" " " | title }}</h1>
+      <h1>{{ .Title }}</h1>
     {{ end }}
     {{ partial "post-list.html" (dict "ctx" $ "posts" (where .Paginator.Pages "Type" "!=" "page")) }}
     {{ partial "pagination.html" $ }}

@@ -4,7 +4,16 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="{{ .Site.Params.style.darkColor | default "#353b43" }}" />
-    <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+    <title>
+      {{ if .IsHome }}
+        {{ .Site.Params.author }}
+      {{ else if eq .Kind "term" }}
+        {{ .Data.Singular | title }}: {{ partial "tag-display" .Title }}
+      {{ else }}
+        {{ .Title }}
+      {{ end }}
+      | {{ .Site.Title }}
+    </title>
     <link rel="shortcut icon" href="{{ .Site.Params.favicon | default "/favicon.ico" }}" />
     {{ $style := resources.Get "css/main.scss" | resources.ExecuteAsTemplate "css/main.scss" . | resources.ToCSS | resources.Minify | resources.Fingerprint -}}
     <link rel="stylesheet" href="{{ $style.Permalink }}" />

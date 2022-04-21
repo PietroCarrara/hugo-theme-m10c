@@ -1,6 +1,27 @@
 <meta name="author" content="{{ .Site.Params.author }}" />
 <meta property="article:author" content="{{ .Site.Params.author }}">
-<meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{if .IsPage}}{{ .Summary }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}{{ end }}" />
+
+{{ $desc := "" }}
+{{ with .Description }}
+  {{ $desc = . }}
+{{ else }}
+  {{if .IsPage }}
+    {{/* First sentence */}}
+    {{ $desc = truncate 159 "…" (index (findRE `^.*?\.` (delimit (apply .PlainWords "htmlUnescape" ".") " " "") 1) 0) }}
+  {{ else }}
+    {{ with .Site.Params.description }}
+      {{ $desc = . }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+{{ if ge (strings.RuneCount $desc) 160 }}
+  {{ warnf "%s: page description is too big" .File.Path }}
+{{ end }}
+{{ if lt (strings.RuneCount $desc) 25 }}
+  {{ warnf "%s: page description is too small" .File.Path }}
+{{ end }}
+<meta name="description" content="{{ $desc | safeHTMLAttr }}" />
+
 <link rel="canonical" href="{{ .Permalink }}" />
 {{ if .IsTranslated }}
   {{ range .AllTranslations }}
@@ -18,7 +39,7 @@
 
 {{ with .Params.tags }}
   {{ if gt (len .) 0 }}
-    <meta property="article:tag" content="{{ range $i, $tag := . }}{{ if gt $i 0 }},{{ end }}{{ replace (i18n $tag | default $tag) "-" " " | title }}{{ end }}">
+    <meta property="article:tag" content="{{ range $i, $tag := . }}{{ if gt $i 0 }},{{ end }}{{ partial "tag-display.html" $tag }}{{ end }}">
   {{ end }}
 {{ end }}
 

@@ -7,7 +7,7 @@
             {{ partial "icon.html" (dict "ctx" $ "name" "tag") }}
             <a class="tags-list-item-title" href="{{ .Page.Permalink }}">
               ({{ .Count }})
-              {{ replace (i18n .Page.Title | default .Page.Title) "-" " " | title }}
+              {{ partial "tag-display.html" .Page.Title }}
             </a>
         </li>
       {{ end }}
