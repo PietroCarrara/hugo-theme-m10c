@@ -14,7 +14,7 @@
     {{ end }}
   {{ end }}
 {{ end }}
-{{ if ge (strings.RuneCount $desc) 160 }}
+{{ if gt (strings.RuneCount $desc) 160 }}
   {{ warnf "%s: page description is too big" .File.Path }}
 {{ end }}
 {{ if lt (strings.RuneCount $desc) 25 }}
@@ -37,10 +37,8 @@
   <meta property="og:image:height" content="{{ .Height }}">
 {{ end}}
 
-{{ with .Params.tags }}
-  {{ if gt (len .) 0 }}
-    <meta property="article:tag" content="{{ range $i, $tag := . }}{{ if gt $i 0 }},{{ end }}{{ partial "tag-display.html" $tag }}{{ end }}">
-  {{ end }}
+{{ range .Params.tags }}
+    <meta property="article:tag" content="{{ partial "tag-display.html" . }}">
 {{ end }}
 
 {{ with .Site.Params.fb_app_id }}
