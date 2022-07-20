@@ -38,7 +38,7 @@
 {{ end}}
 
 {{ range .Params.tags }}
-    <meta property="article:tag" content="{{ partial "tag-display.html" . }}">
+    <meta property="article:tag" content="{{ . }}">
 {{ end }}
 
 {{ with .Site.Params.fb_app_id }}

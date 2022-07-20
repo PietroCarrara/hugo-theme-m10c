@@ -1,7 +1,7 @@
 <ul class="posts-list">
   {{ range .posts }}
     <li class="posts-list-item">
-      <a class="posts-list-item-title" href="{{ .Permalink }}">{{ .Title }}</a>
+      <a class="posts-list-item-title" href="{{ .Permalink }}">{{ .Title | markdownify }}</a>
       <span class="posts-list-item-description">
         {{ partial "icon.html" (dict "ctx" $.ctx "name" "calendar") }}
         <span>{{ .PublishDate | time.Format ":date_medium" }} // </span>

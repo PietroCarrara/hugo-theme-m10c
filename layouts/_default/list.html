@@ -1,7 +1,7 @@
 {{ define "main" }}
   <article>
     {{ if eq .Kind "term" }}
-      <h1>{{ .Data.Singular | title }}: {{ partial "tag-display.html" .Title }}</h1>
+      <h1>{{ .Data.Singular | title }}: {{ .Title }}</h1>
     {{ else }}
       <h1>{{ .Title }}</h1>
     {{ end }}

@@ -8,7 +8,7 @@
       {{ if .IsHome }}
         {{ .Site.Params.author }}
       {{ else if eq .Kind "term" }}
-        {{ .Data.Singular | title }}: {{ partial "tag-display" .Title }}
+        {{ .Data.Singular | title }}: {{ .Title }}
       {{ else }}
         {{ .Title }}
       {{ end }}
