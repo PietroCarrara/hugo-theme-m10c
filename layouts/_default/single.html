@@ -16,11 +16,11 @@
         <div>
             <div class="tag-icon">{{ partial "icon.html" (dict "ctx" $ "name" "tag") }}</div>
             <div class="tags-container">
-              {{- range . -}}
-                {{ with $.Site.GetPage (printf "/%s/%s" "tags" . ) }}
-                  <a class="tag" href="{{ .Permalink }}">{{ .Title }}</a>
-                {{- end }}
-              {{- end }}
+              {{ range . }}
+                {{ with $.Site.GetPage (printf "/tags/%s" (urlize .) ) }}
+                    <a class="tag" href="{{ .Permalink }}">{{ .Title }}</a>
+                {{ end }}
+              {{ end }}
             </div>
         </div>
         {{- end }}
