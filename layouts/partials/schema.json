@@ -1,0 +1,22 @@
+{{- $iso8601 := "2006-01-02T15:04:05-07:00" -}}
+{
+  "@context": "https://schema.org",
+  "@type": {{ .Params.schema.type | default "BlogPosting" | jsonify }},
+  "headline": {{ .Title | jsonify }},
+  {{ with ((.Resources.ByType "image").GetMatch "*feature*") }}
+    "image": {{ .Permalink | jsonify }},
+  {{ end }}
+  {{ with .PublishDate }}
+    "datePublished": {{ .Format $iso8601 | jsonify }},
+  {{ end }}
+  {{ with .Lastmod }}
+    "dateModified": {{ .Format $iso8601 | jsonify }},
+  {{ end }}
+  "author": {
+    "@type": "Person",
+    "name": "{{ .Site.Params.author }}"
+  },
+  "inLanguage": {{ .Language.Lang | jsonify }},
+  "keywords": {{ delimit .Params.tags ", " | jsonify }},
+  "wordcount": {{ .WordCount | jsonify }}
+}
