@@ -1,4 +1,4 @@
-{{- $iso8601 := "2006-01-02T15:04:05-07:00" -}}
+{{ $iso8601 := "2006-01-02T15:04:05-07:00" }}
 {
   "@context": "https://schema.org",
   "@type": {{ .Params.schema.type | default "BlogPosting" | jsonify }},
@@ -16,6 +16,11 @@
     "@type": "Person",
     "name": "{{ .Site.Params.author }}"
   },
+  {{ with .Params.schema.custom }}
+    {{ range $key, $val := . }}
+      {{ $key | jsonify }}: {{ $val | jsonify }},
+    {{ end }}
+  {{ end }}
   "inLanguage": {{ .Language.Lang | jsonify }},
   "keywords": {{ delimit .Params.tags ", " | jsonify }},
   "wordcount": {{ .WordCount | jsonify }}
