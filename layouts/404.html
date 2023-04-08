@@ -1,6 +1,6 @@
 {{ define "main" }}
   <div class="error-404">
-    <h1 class="error-404-title">O{{ partial "icon.html" (dict "ctx" $ "name" "frown") }}ps... </h1>
+    <h1 class="error-404-title">O{{ partial "icon.html" (dict "ctx" $ "name" "emoji-frown") }}ps... </h1>
     <p>{{ i18n "404" }}</p>
     <a href="{{ "/" | relLangURL }}">{{ i18n "goHome"}} {{ partial "icon.html" (dict "ctx" $ "name" "arrow-right") }}</a>
   </div>
