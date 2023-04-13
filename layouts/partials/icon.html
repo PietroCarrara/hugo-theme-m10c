@@ -1,6 +1,6 @@
 {{/* https://icons.getbootstrap.com/ */}}
 {{- if isset .ctx.Site.Data.m10c.icons .name -}}
-<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-{{ .name }}" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+<svg xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true" class="icon icon-{{ .name }}" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
   <title>{{ .title | default .name }}</title>
   {{ safeHTML (index .ctx.Site.Data.m10c.icons .name) }}
 </svg>
