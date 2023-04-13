@@ -1,13 +1,15 @@
 <ul class="posts-list">
   {{ range .posts }}
     <li class="posts-list-item">
-      <a class="posts-list-item-title" href="{{ .Permalink }}">{{ .Title | markdownify }}</a>
-      <span class="posts-list-item-description">
-        {{ partial "icon.html" (dict "ctx" $.ctx "name" "calendar2") }}
-        <span>{{ .PublishDate | time.Format ":date_medium" }} // </span>
-        {{ partial "icon.html" (dict "ctx" $.ctx "name" "clock") }}
-        <span>{{ i18n "readTime" .ReadingTime }}</span>
-      </span>
+      <article>
+        <a role="heading" aria-level="2" class="posts-list-item-title" href="{{ .Permalink }}">{{ .Title | markdownify }}</a>
+        <span class="posts-list-item-description">
+          {{ partial "icon.html" (dict "ctx" $.ctx "name" "calendar2") }}
+          <span><time datetime="{{ .PublishDate | time.Format "2006-01-02" }}">{{ .PublishDate | time.Format ":date_medium" }}</time> // </span>
+          {{ partial "icon.html" (dict "ctx" $.ctx "name" "clock") }}
+          <span><time datetime="P{{ .ReadingTime }}M">{{ i18n "readTime" .ReadingTime }}</time></span>
+        </span>
+      </article>
     </li>
   {{ end }}
 </ul>

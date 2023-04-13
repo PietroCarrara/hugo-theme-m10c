@@ -1,6 +1,9 @@
 readTime:
   one: 1 minute read
-  other: '{{ .Count }} minutes read'
+  other: '{{ .Count }} minutes to read'
 '404': The link you followed may be broken, or the page may have been removed.
 goHome: Go home
 related: 'You might also like:'
+skipToContent: 'Skip to content'
+sections: Seções
+languages: Languages

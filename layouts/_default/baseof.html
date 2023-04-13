@@ -22,9 +22,11 @@
     {{ template "_internal/google_analytics.html" . }}
   </head>
   <body>
-    <header class="app-header">
+    <a id="skip-to-content" href="#main-content">{{ i18n "skipToContent" }}</a>
+
+    <header role="banner" class="app-header">
       <div class="app-header-image-container">
-        <a href="{{ .Site.BaseURL | relLangURL }}">
+        <a title="Home" href="{{ .Site.BaseURL | relLangURL }}">
           {{ with .Page.Params.poster }}
             {{ $img := $.Page.Resources.GetMatch . }}
             {{ with $img.Fit "400x300 webp" }}
@@ -35,36 +37,43 @@
               <img class="app-header-avatar" src="{{ .Permalink }}" width="{{ .Width }}" height="{{ .Height }}" alt="{{ $.Site.Params.author }}" />
             {{ end }}
           {{ end }}
+
+          <span class="title">{{ .Site.Title }}</span>
         </a>
       </div>
 
-      <a href="{{ .Site.BaseURL | relLangURL }}">
-        <span class="title">{{ .Site.Title }}</span>
-      </a>
-
       {{- with .Site.Menus.main }}
-      <nav class="app-header-menu">
+      <nav aria-label="{{ i18n "sections" }}" role="navigation" class="app-header-menu">
         {{- range $key, $item := . }}
           {{- if ne $key 0 }}
+          <span aria-hidden="true">
             {{ $.Site.Params.menu_item_separator | default " - " | safeHTML }}
+          </span>
           {{ end }}
-          <a class="app-header-menu-item" href="{{ $item.URL | relLangURL }}">{{ $item.Name }}</a>
+          <span role="listitem" aria-label="{{ $item.Name }}">
+            <a class="app-header-menu-item" href="{{ $item.URL | relLangURL }}">{{ $item.Name }}</a>
+          </span>
         {{- end }}
       </nav>
       {{- end }}
+
       <p>{{ .Site.Params.description | default "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vehicula turpis sit amet elit pretium." }}</p>
 
       {{ if .IsTranslated }}
-        <p>
+        <p role="navigation" aria-label="{{ i18n "languages" }}">
           {{- range $i, $tl := .AllTranslations }}
             {{ $svg := printf "svg/%s.svg" $tl.Language.Lang }}
             {{ with resources.Get $svg }}
               {{ if ne $i 0 }}
+              <span aria-hidden="true">
                 {{ $.Site.Params.menu_item_separator | default " - " | safeHTML }}
+              </span>
               {{ end }}
-              <a href="{{ $tl.Permalink }}" title="{{ $tl.Language.LanguageName }}">
-                {{ .Content | safeHTML }}
-              </a>
+              <span role="listitem" aria-label="{{ $tl.Language.LanguageName }}">
+                <a href="{{ $tl.Permalink }}" title="{{ $tl.Language.LanguageName }}">
+                  {{ .Content | safeHTML }}
+                </a>
+              </span>
             {{ end }}
           {{ end }}
         </p>
@@ -73,14 +82,14 @@
       {{- with .Site.Params.social }}
       <div class="app-header-social">
         {{ range . }}
-          <a rel="me" href="{{ .url }}" target="_blank" rel="noreferrer noopener">
+          <a rel="me" href="{{ .url }}" target="_blank" title="{{ .name }}" rel="noreferrer noopener">
             {{ partial "icon.html" (dict "ctx" $ "name" .icon "title" .name) }}
           </a>
         {{ end }}
       </div>
       {{- end }}
     </header>
-    <main class="app-container">
+    <main id="main-content" class="app-container">
       {{ block "main" . }}
         {{ .Content }}
       {{ end }}

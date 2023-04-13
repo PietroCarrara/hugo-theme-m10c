@@ -1,52 +1,57 @@
 {{ define "main" }}
-  <article class="post">
-    <header class="post-header">
-      <h1 class ="post-title">{{ .Title | markdownify }}</h1>
-      {{- if ne .Type "page" }}
-      <div class="post-meta">
-        <div>
-          {{ partial "icon.html" (dict "ctx" $ "name" "calendar") }}
-          {{ .PublishDate | time.Format ":date_full" }}
-        </div>
-        <div>
-          {{ partial "icon.html" (dict "ctx" $ "name" "clock") }}
-          {{ i18n "readTime" .ReadingTime }}
-        </div>
-        {{- with .Params.tags }}
-        <div>
-            {{ partial "icon.html" (dict "ctx" $ "name" "tag") }}
-            {{ range . }}
-                <a class="tag" href="{{ absLangURL (printf "/tags/%s" (. | urlize)) }}">{{ . }}</a>
-            {{ end }}
-        </div>
-        {{- end }}
-        {{ with .Params.disclaimer }}
-        <div class="post-disclaimer">
-          <em>{{ . }}</em>
-        </div>
+<article role="main" class="post">
+  <header class="post-header">
+    <h1 class="post-title">{{ .Title | markdownify }}</h1>
+    {{- if ne .Type "page" }}
+    <div class="post-meta">
+      <div>
+        {{ partial "icon.html" (dict "ctx" $ "name" "calendar") }}
+        <time datetime="{{ .PublishDate | time.Format " 2006-01-02" }}">{{ .PublishDate | time.Format ":date_full"
+          }}</time>
+      </div>
+      <div>
+        {{ partial "icon.html" (dict "ctx" $ "name" "clock") }}
+        <time datetime="P{{ .ReadingTime }}M">{{ i18n "readTime" .ReadingTime }}</time>
+      </div>
+      {{- with .Params.tags }}
+      <div aria-label="Tags" role="list">
+        {{ partial "icon.html" (dict "ctx" $ "name" "tag") }}
+        {{ range . }}
+          <span role="listitem">
+            <a class="tag" href="{{ absLangURL (printf " /tags/%s" (. | urlize)) }}">{{ . }}</a>
+          </span>
         {{ end }}
-        <hr class="post-header-content-separator" />
       </div>
       {{- end }}
-    </header>
-    <div class="post-content">
-      {{ .Content }}
-    </div>
-    <div class="post-footer">
-      {{ template "_internal/disqus.html" . }}
-      {{ $related := slice }}
-      {{ $tags := .Params.tags }}
-      {{- if ne .Type "page" }}
-        {{ range where (sort .Site.RegularPages ".Date" "desc") ".Title" "!=" .Title }}
-          {{ if ge (len (intersect $tags .Params.tags)) 2 }}
-            {{ $related = $related | append . }}
-          {{ end }}
-        {{ end }}
+      {{ with .Params.disclaimer }}
+      <div class="post-disclaimer">
+        <em>{{ . }}</em>
+      </div>
       {{ end }}
-      {{ if gt (len $related) 0 }}
-        <h3 class="post-related-title">{{ i18n "related" | default "You might also like:" }}</h3>
-        {{ partial "post-list.html" (dict "ctx" $ "posts" $related) }}
-      {{ end }}
+      <hr class="post-header-content-separator" />
     </div>
-  </article>
+    {{- end }}
+  </header>
+  <div class="post-content">
+    {{ .Content }}
+  </div>
+  <div class="post-footer">
+    {{ template "_internal/disqus.html" . }}
+    {{ $related := slice }}
+    {{ $tags := .Params.tags }}
+    {{- if ne .Type "page" }}
+    {{ range where (sort .Site.RegularPages ".Date" "desc") ".Title" "!=" .Title }}
+    {{ if ge (len (intersect $tags .Params.tags)) 2 }}
+    {{ $related = $related | append . }}
+    {{ end }}
+    {{ end }}
+    {{ end }}
+    {{ if gt (len $related) 0 }}
+    <aside role="complementary">
+      <h3 class="post-related-title">{{ i18n "related" | default "You might also like:" }}</h3>
+      {{ partial "post-list.html" (dict "ctx" $ "posts" $related) }}
+    </aside>
+    {{ end }}
+  </div>
+</article>
 {{ end }}
