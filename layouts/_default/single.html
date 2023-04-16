@@ -18,7 +18,7 @@
         {{ partial "icon.html" (dict "ctx" $ "name" "tag") }}
         {{ range . }}
           <span role="listitem">
-            <a class="tag" href="{{ absLangURL (printf " /tags/%s" (. | urlize)) }}">{{ . }}</a>
+            <a class="tag" href="{{ absLangURL (printf "/tags/%s" (. | urlize)) }}">{{ . }}</a>
           </span>
         {{ end }}
       </div>
