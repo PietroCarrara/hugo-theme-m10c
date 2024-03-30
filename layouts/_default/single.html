@@ -25,7 +25,7 @@
       {{- end }}
       {{ with .Params.disclaimer }}
       <div class="post-disclaimer">
-        <em>{{ . }}</em>
+        <em>{{ . | markdownify }}</em>
       </div>
       {{ end }}
       <hr class="post-header-content-separator" />
